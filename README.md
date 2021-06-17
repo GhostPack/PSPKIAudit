@@ -4,7 +4,7 @@ PowerShell toolkit for auditing Active Directory Certificate Services (AD CS).
 
 It is built on top of [PKISolution](http://pkisolutions.com/)'s [PSPKI](https://github.com/PKISolutions/PSPKI) toolkit (Microsoft Public License).
 
-**This README is only meant as a starting point- for complete details and defensive guidance, please see the "[Certified Pre-Owned]()" whitepaper.**
+**This README is only meant as a starting point- for complete details and defensive guidance, please see the "[Certified Pre-Owned](https://www.specterops.io/assets/resources/Certified_Pre-Owned.pdf)" whitepaper.**
 
 The module contains the following main functions: 
 1. [Invoke-PKIAudit](#auditing-ad-cs-misconfigurations) - Audits the current Forest's AD CS settings, primarily analyzing the CA server and published templates for potential privilege escalation opportunities.
@@ -23,15 +23,15 @@ It is your responsibility to talk to your Active Directory/PKI/Architecture team
 - [Setup](#setup)
 - [Auditing AD CS Misconfigurations](#auditing-ad-cs-misconfigurations)
   - [Output Explanation](#output-explanation)
-  - [ESC1 - Misconfigured Certificate Templates](#esc1-misconfigured-certificate-templates)
-  - [ESC2 - Misconfigured Certificate Templates](#esc2-misconfigured-certificate-templates)
-  - [ESC3 - Misconfigured Enrollment Agent Templates](#esc3-misconfigured-enrollment-agent-templates)
-  - [ESC4 - Vulnerable Certificate Template Access Control](#esc4-vulnerable-certificate-template-access-control)
-  - [ESC5 - Vulnerable PKI AD Object Access Control](#esc5-vulnerable-pki-ad-object-access-control)
-  - [ESC6 - EDITF_ATTRIBUTESUBJECTALTNAME2](#esc6-editf_attributesubjectaltname2)
-  - [ESC7 - Vulnerable Certificate Authority Access Control](#esc7-vulnerable-certificate-authority-access-control)
-  - [ESC8 - NTLM Relay to AD CS HTTP Endpoints](#esc8-ntlm-relay-to-ad-cs-http-endpoints)
-  - [Misc - Explicit Mappings](#misc-explicit-mappings)
+  - [ESC1 - Misconfigured Certificate Templates](#esc1---misconfigured-certificate-templates)
+  - [ESC2 - Misconfigured Certificate Templates](#esc2---misconfigured-certificate-templates)
+  - [ESC3 - Misconfigured Enrollment Agent Templates](#esc3---misconfigured-enrollment-agent-templates)
+  - [ESC4 - Vulnerable Certificate Template Access Control](#esc4---vulnerable-certificate-template-access-control)
+  - [ESC5 - Vulnerable PKI AD Object Access Control](#esc5---vulnerable-pki-ad-object-access-control)
+  - [ESC6 - EDITF_ATTRIBUTESUBJECTALTNAME2](#esc6---editf_attributesubjectaltname2)
+  - [ESC7 - Vulnerable Certificate Authority Access Control](#esc7---vulnerable-certificate-authority-access-control)
+  - [ESC8 - NTLM Relay to AD CS HTTP Endpoints](#esc8---ntlm-relay-to-ad-cs-http-endpoints)
+  - [Misc - Explicit Mappings](#misc---explicit-mappings)
 - [Triaging Existing Issued Certificate Requests](#triaging-existing-issued-certificate-requests)
 
 
