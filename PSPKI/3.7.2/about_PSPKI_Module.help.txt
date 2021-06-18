@@ -1,0 +1,45 @@
+TOPIC
+    about_PSPKI_Module.help.txt
+SHORT DESCRIPTION
+    This module is intended to manage Active Directory Certificate Services
+    (ADCS) in a PowerShell native way.
+LONG DESCRIPTION
+    With this module you can manage remotely and locally Certification Authority
+    (CA), CA database, CA settings and issued certificates. Also, the module
+    allows forest-wide PKI settings. For example, you can view and delete
+    (modification is not supported by Microsoft) certificate templates,
+    register or unregister object identifiers (OID) in Active Directory.
+    
+    The module relies on a SysadminsLV.PKI.dll (as well as on Interop assemblies
+    library which contains underlying API extensions via .NET class framework
+    and is compiled under .NET Framework 4.0.
+    
+    SysadminsLV.PKI.dll class library documentation is located at
+    https://pkisolutions.com/apidocs/pkix.net/
+
+    SysadminsLV.Asn1Parser.dll class library documentation is located at
+    https://www.pkisolutions.com/apidocs/asn1parser/
+BUILT-IN COMMANDS
+    The module splits commands depending on installation type. During module
+    package installation you are prompted to select components to install:
+    client and/or server.
+    
+    Client package includes commands that can be used on client operating
+    systems to manage local certificate-related stuff. Client package do not
+    require to install Active Directory Certificate Services (ADCS) Remote
+    Server Management Tools (RSAT).
+    
+    Server package is mainly intended to manage local or remote ADCS servers,
+    including Certificate Authority, Certificate Enrollment and Policy servers
+    and certificate templates.
+    Server package requires ADCS RSAT installation.
+DOCUMENTATION
+    Documentation for PSPKI module and its commands are available at project home
+    page: https://www.pkisolutions.com/tools/pspki/
+SUPPORT INFORMATION
+    The official support page for the module: https://github.com/PKISolutions/PSPKI
+    Any comments and questions must be addressed under Issues tab.
+
+ACKNOWLEDGMENTS
+    Vic Heller (Microsoft)
+    Rashmi Jha (Microsoft)
