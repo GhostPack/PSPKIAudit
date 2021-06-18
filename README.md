@@ -2,7 +2,7 @@
 
 PowerShell toolkit for auditing Active Directory Certificate Services (AD CS).
 
-It is built on top of [PKISolution](http://pkisolutions.com/)'s [PSPKI](https://github.com/PKISolutions/PSPKI) toolkit (Microsoft Public License).
+It is built on top of [PKISolution](http://pkisolutions.com/)'s [PSPKI](https://github.com/PKISolutions/PSPKI) toolkit (Microsoft Public License). This repo contains a newer version of PSPKI than what's available in the PSGallery (see the `PSPKI` directory). [Vadims Podans](https://github.com/Crypt32) (the creator of PSPKI) graciously provided this version as it contains patches for several bugs.
 
 **This README is only meant as a starting point- for complete details and defensive guidance, please see the "[Certified Pre-Owned](https://www.specterops.io/assets/resources/Certified_Pre-Owned.pdf)" whitepaper.**
 
@@ -43,15 +43,16 @@ Install the following using an elevated PowerShell prompt:
 ```
 Get-WindowsCapability -Online -Name "Rsat.*" | where Name -match "CertificateServices|ActiveDIrectory" | Add-WindowsCapability -Online
 ```
-* [PSPKI](https://github.com/PKISolutions/PSPKI) - Install with following command:
-```
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; 
-Install-Module PSPKI
-```
+
 ## Import <!-- omit in toc -->
+Download the module extract it to a folder. Then, import the module using the following commands:
 
-`Import-Module .\PSPKIAudit.psm1`
+```
+cd PSPKIAudit
+Get-ChildItem -Recurse | Unblock-File
 
+Import-Module .\PSPKIAudit.psm1`
+```
 
 # Auditing AD CS Misconfigurations
 

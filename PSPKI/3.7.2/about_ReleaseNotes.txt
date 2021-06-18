@@ -1,0 +1,18 @@
+PSPKI v3.7.0 Release Notes
+==========================
+https://www.pkisolutions.com/tools/pspki/release-notes-for-pspki-v370
+
+PSPKI v3.5.0 Release Notes
+==========================
+https://www.pkisolutions.com/tools/pspki/release-notes-for-pspki-v350
+==========================
+
+PSPKI v3.4.2 Release Notes
+==========================
+https://www.pkisolutions.com/tools/pspki/release-notes-for-pspki-v342
+==========================
+
+PSPKI v3.4.0 Release Notes
+==========================
+https://www.sysadmins.lv/projects/pspki/release-notes-for-pspki-v340.aspx
+==========================
