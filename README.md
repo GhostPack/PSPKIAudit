@@ -51,7 +51,7 @@ Download the module extract it to a folder. Then, import the module using the fo
 cd PSPKIAudit
 Get-ChildItem -Recurse | Unblock-File
 
-Import-Module .\PSPKIAudit.psm1`
+Import-Module .\PSPKIAudit.psm1
 ```
 
 # Auditing AD CS Misconfigurations
