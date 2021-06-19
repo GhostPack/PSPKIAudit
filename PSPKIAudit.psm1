@@ -17,13 +17,13 @@ try {
     Import-Module "$($PSScriptRoot)\PSPKI\3.7.2\PSPKI.psm1" -ErrorAction Stop -Force
 } catch {
     Write-Warning "Unable to load PSPKI: $_"
-    exit(1)
+    return
 }
 
 # Ensure the version of PSPKI that comes bundled here is used and not the one from the gallery
 if(![SysadminsLV.PKI.Win32.Crypt32].Assembly.Location.Contains($PSScriptRoot)) {
     Write-Warning "The wrong version of PSPKI is loaded. Please open a new PowerShell window and reload this module."
-    exit(1)
+    return
 }
 
 
@@ -32,7 +32,7 @@ try {
 }
 catch {
     Write-Warning "Please install the ActiveDirectory module'"
-    exit(1)
+    return
 }
 
 Get-ChildItem -Path "$($PSScriptRoot)\Code\" -Recurse -Include *.ps1 | % { Import-Module $_.FullName -DisableNameChecking -Force }
