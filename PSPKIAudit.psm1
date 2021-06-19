@@ -35,4 +35,4 @@ catch {
     return
 }
 
-Get-ChildItem -Path "$($PSScriptRoot)\Code\" -Recurse -Include *.ps1 | ForEach-Object { Import-Module $_.FullName -DisableNameChecking -Force }
+Get-ChildItem -Path "$($PSScriptRoot)\Code\" -Recurse -Include *.ps1 | ForEach-Object { . $_.FullName }
