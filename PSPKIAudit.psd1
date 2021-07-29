@@ -31,3 +31,4 @@ FunctionsToExport = @(
     'Get-AuditPKIADObjectControllers',
     'Format-PKIAdObjectControllers'
 )
+}
