@@ -41,7 +41,7 @@ It is your responsibility to talk to your Active Directory/PKI/Architecture team
 Install the following using an elevated PowerShell prompt:
 * [RSAT's](https://docs.microsoft.com/en-us/troubleshoot/windows-server/system-management-components/remote-server-administration-tools) **Certificate Services** and **Active Directory** features. Install with the following command:
 ```
-Get-WindowsCapability -Online -Name "Rsat.*" | where Name -match "CertificateServices|ActiveDIrectory" | Add-WindowsCapability -Online
+Get-WindowsCapability -Online -Name "Rsat.*" | where Name -match "CertificateServices|ActiveDirectory" | Add-WindowsCapability -Online
 ```
 
 ## Import <!-- omit in toc -->
