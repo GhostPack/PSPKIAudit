@@ -27,6 +27,10 @@ function Get-CertRequest {
 
     Only return return issued certificate requests for the specified template name.
 
+    .PARAMETER Filter
+
+    Custom filter to search for issued certificates.
+
     .EXAMPLE
 
     Get-CertRequest -CAName "theshire-DC-CA" -HasSAN
@@ -63,8 +67,12 @@ function Get-CertRequest {
 
         [String]
         [Alias('TemplateName', 'CertificateTemplate')]
-        $Template
+        $Template,
+
+        [String]
+        $Filter
     )
+
 
     if($Requester -and (-not $Requester.Contains("\"))) {
         Write-Warning "-Requester must be of form 'DOMAIN\user'"
@@ -73,7 +81,7 @@ function Get-CertRequest {
 
     $Filter = $Null
     if($Requester) {
-        $Filter = "Request.RequesterName -eq $Requester AND "
+        $Filter = "Request.RequesterName -eq $Requester"
     }
 
 
@@ -91,51 +99,90 @@ function Get-CertRequest {
     
 
     foreach($CA in $CAs) {
-        # from https://github.com/PKISolutions/PSPKI/issues/144
-        $PageSize = 50000
-        $LastID = 0
-
-        do {
-            $ReadRows = 0
-            $CA | Get-IssuedRequest -Filter "$($Filter)RequestID -gt $LastID" -Page 1 -PageSize $PageSize -Property @('Request.RequesterName', 'Request.SubmittedWhen', 'CertificateTemplateOid', 'RequestID', 'ConfigString', 'Request.RawRequest') | ForEach-Object {
-                $ReadRows++
-                $LastID = $_.Properties["RequestID"]
-
-                $IssuedRequest = $_ | Add-CertRequestInformation
-
-                $IssuedRequest | Select-Object -Property `
-                @{N='CA'; E={$_.ConfigString}}, `
-                @{N='RequestID'; E={$_.RequestID}}, `
-                @{N='RequesterName'; E={$_.'Request.RequesterName'}}, `
-                @{N='RequesterMachineName'; E={$_.MachineName}}, `
-                @{N='RequesterProcessName'; E={$_.ProcessName}}, `
-                @{N='SubjectAltNamesExtension'; E={$_.SubjectAltNamesExtension}}, `
-                @{N='SubjectAltNamesAttrib'; E={$_.SubjectAltNamesAttrib}}, `
-                @{N='SerialNumber'; E={$_.SerialNumber}}, `
-                @{N='CertificateTemplate'; E={$_.CertificateTemplateOid}}, `
-                @{N='RequestDate'; E={$_.'Request.SubmittedWhen'}}, `
-                @{N='StartDate'; E={$_.NotBefore}}, `
-                @{N='EndDate'; E={$_.NotAfter}} | ForEach-Object {
-                    if($HasSAN) {
-                        if($_.SubjectAltNamesExtension -or $_.SubjectAltNamesAttrib) {
+        if($Filter) {
+            Write-Verbose "Filter: $Filter"
+            $CA | Get-IssuedRequest -Filter "$Filter" -Property @('Request.RequesterName', 'Request.SubmittedWhen', 'CertificateTemplateOid', 'RequestID', 'ConfigString', 'Request.RawRequest') | ForEach-Object {
+                    $IssuedRequest = $_ | Add-CertRequestInformation
+                    $IssuedRequest | Select-Object -Property `
+                    @{N='CA'; E={$_.ConfigString}}, `
+                    @{N='RequestID'; E={$_.RequestID}}, `
+                    @{N='RequesterName'; E={$_.'Request.RequesterName'}}, `
+                    @{N='RequesterMachineName'; E={$_.MachineName}}, `
+                    @{N='RequesterProcessName'; E={$_.ProcessName}}, `
+                    @{N='SubjectAltNamesExtension'; E={$_.SubjectAltNamesExtension}}, `
+                    @{N='SubjectAltNamesAttrib'; E={$_.SubjectAltNamesAttrib}}, `
+                    @{N='SerialNumber'; E={$_.SerialNumber}}, `
+                    @{N='CertificateTemplate'; E={$_.CertificateTemplateOid}}, `
+                    @{N='RequestDate'; E={$_.'Request.SubmittedWhen'}}, `
+                    @{N='StartDate'; E={$_.NotBefore}}, `
+                    @{N='EndDate'; E={$_.NotAfter}} | ForEach-Object {
+                        if($HasSAN) {
+                            if($_.SubjectAltNamesExtension -or $_.SubjectAltNamesAttrib) {
+                                $_
+                            }
+                        }
+                        else {
+                            $_
+                        }
+                    } | ForEach-Object {
+                        if($Template) {
+                            if($_.CertificateTemplate -match $Template) {
+                                $_
+                            }
+                        }
+                        else {
                             $_
                         }
                     }
-                    else {
-                        $_
-                    }
-                } | ForEach-Object {
-                    if($Template) {
-                        if($_.CertificateTemplate -match $Template) {
+            }
+        }
+        else {
+            # from https://github.com/PKISolutions/PSPKI/issues/144
+            $PageSize = 50000
+            $LastID = 0
+
+            do {
+                $ReadRows = 0
+                $CA | Get-IssuedRequest -Filter "$($Filter)RequestID -gt $LastID" -Page 1 -PageSize $PageSize -Property @('Request.RequesterName', 'Request.SubmittedWhen', 'CertificateTemplateOid', 'RequestID', 'ConfigString', 'Request.RawRequest') | ForEach-Object {
+                    $ReadRows++
+                    $LastID = $_.Properties["RequestID"]
+
+                    $IssuedRequest = $_ | Add-CertRequestInformation
+
+                    $IssuedRequest | Select-Object -Property `
+                    @{N='CA'; E={$_.ConfigString}}, `
+                    @{N='RequestID'; E={$_.RequestID}}, `
+                    @{N='RequesterName'; E={$_.'Request.RequesterName'}}, `
+                    @{N='RequesterMachineName'; E={$_.MachineName}}, `
+                    @{N='RequesterProcessName'; E={$_.ProcessName}}, `
+                    @{N='SubjectAltNamesExtension'; E={$_.SubjectAltNamesExtension}}, `
+                    @{N='SubjectAltNamesAttrib'; E={$_.SubjectAltNamesAttrib}}, `
+                    @{N='SerialNumber'; E={$_.SerialNumber}}, `
+                    @{N='CertificateTemplate'; E={$_.CertificateTemplateOid}}, `
+                    @{N='RequestDate'; E={$_.'Request.SubmittedWhen'}}, `
+                    @{N='StartDate'; E={$_.NotBefore}}, `
+                    @{N='EndDate'; E={$_.NotAfter}} | ForEach-Object {
+                        if($HasSAN) {
+                            if($_.SubjectAltNamesExtension -or $_.SubjectAltNamesAttrib) {
+                                $_
+                            }
+                        }
+                        else {
                             $_
                         }
-                    }
-                    else {
-                        $_
+                    } | ForEach-Object {
+                        if($Template) {
+                            if($_.CertificateTemplate -match $Template) {
+                                $_
+                            }
+                        }
+                        else {
+                            $_
+                        }
                     }
                 }
-            }
-        } while ($ReadRows -eq $PageSize)
+            } while ($ReadRows -eq $PageSize)
+        }
     }
 }
 
