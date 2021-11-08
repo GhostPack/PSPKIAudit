@@ -6,7 +6,7 @@ $Version = "0.3.6"
 #   Domain Users            S-1-5-21domain-513
 #   Domain Computers        S-1-5-21domain-515
 #   Users                   S-1-5-32-545
-$CommonLowprivPrincipals = "S-1-1-0|S-1-5-11|S-1-5-21.*-513|S-1-5-21.*-515|S-1-5-32-545"`
+$CommonLowprivPrincipals = "S-1-1-0|S-1-5-11|S-1-5-21.*-513$|S-1-5-21.*-515$|S-1-5-32-545"`
 
 # cache for username->SID translations
 $SIDTranslationCache = @{}
