@@ -215,7 +215,7 @@ function Add-CertRequestInformation {
 
         if($RawRequestBytes.Length -gt 0) {
             try {
-                $CertRequest = New-Object System.Security.Cryptography.X509CertificateRequests.X509CertificateRequest (,$RawRequestBytes)
+                $CertRequest = New-Object SysadminsLV.PKI.Cryptography.X509Certificates.X509CertificateRequest (,$RawRequestBytes)
             }
             catch {
                 Write-Verbose "Error parsing RequestID: $($Request.RequestID): $_"
