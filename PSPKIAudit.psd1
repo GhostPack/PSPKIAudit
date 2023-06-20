@@ -28,7 +28,7 @@ RequiredModules = @(
     },
     @{
         ModuleName    = 'PSPKI'
-        ModuleVersion = '3.7.2'
+        ModuleVersion = '4.0.0'
         Guid          = '08a70230-ae58-48af-ae73-e4276b6ef1eb'
     }
 

@@ -43,6 +43,10 @@ Install the following using an elevated PowerShell prompt:
 ```
 Get-WindowsCapability -Online -Name "Rsat.*" | where Name -match "CertificateServices|ActiveDirectory" | Add-WindowsCapability -Online
 ```
+* The [PSPKI PowerShell module](https://github.com/PKISolutions/PSPKI). Install with the following command:
+```
+Install-Module -Name PSPKI
+```
 
 ## Import <!-- omit in toc -->
 Download the module extract it to a folder. Then, import the module using the following commands:
@@ -51,12 +55,12 @@ Download the module extract it to a folder. Then, import the module using the fo
 cd PSPKIAudit
 Get-ChildItem -Recurse | Unblock-File
 
-Import-Module .\PSPKIAudit.psm1
+Import-Module .\PSPKIAudit.psd1
 ```
 
 # Auditing AD CS Misconfigurations
 
-Running `Invoke-PKIAudit [-CAComputerName CA.DOMAIN.COM | -CAName X-Y-Z]` will run all auditing checks for your existing AD CS environment, including enumerating various Certificate Authority and Certificate Template settings.
+Running `Invoke-PKIAudit` will run all auditing checks against AD CS in the current domain, including enumerating various Certificate Authority and Certificate Template settings. To audit a specific CA, you can run `Invoke-PKIAudit -CAComputerName CA.DOMAIN.COM` or `Invoke-PKIAudit -CAName X-Y-Z`.
 
 Any misconfigurations (ESC1-8) will appear as properties on the CA/template results displayed to identify the specific misconfiguration found.
 
