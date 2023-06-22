@@ -38,7 +38,7 @@ It is your responsibility to talk to your Active Directory/PKI/Architecture team
 # Setup
 
 ## Requirements <!-- omit in toc -->
-Install the following using an elevated PowerShell prompt:
+Install the following on a Windows machine using an elevated PowerShell prompt (PowerShell verion 5.1 or above):
 * [RSAT's](https://docs.microsoft.com/en-us/troubleshoot/windows-server/system-management-components/remote-server-administration-tools) **Certificate Services** and **Active Directory** features. Install with the following command:
 ```
 Get-WindowsCapability -Online -Name "Rsat.*" | where Name -match "CertificateServices|ActiveDirectory" | Add-WindowsCapability -Online
