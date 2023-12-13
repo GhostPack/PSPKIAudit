@@ -97,6 +97,10 @@ function Invoke-PKIAudit {
             Write-Host -ForegroundColor Red "[!] The above CA is misconfigured!"
         }
 
+        if (Test-IsMemberOfProtectedUsers) {
+            Write-Warning -WarningAction Continue -Message "The current user is a member of the Protected Users group, which will cause anything with dependencies on NTLM to fail. Please keep this in mind for ESC8 checks."
+        }
+
         # get the set of templates published to this CA (or all templates if -ShowAllVulnerableTemplates is passed)
         $CATemplates = Get-AuditCertificateTemplate @Args
         
