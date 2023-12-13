@@ -882,3 +882,80 @@ function Format-PKIAdObjectControllers {
         }
     }
 }
+
+
+function Test-IsMemberOfProtectedUsers {
+    <#
+        .SYNOPSIS
+        Check to see if the current user in this execution context is a member of the Protected Users group.
+    
+        .DESCRIPTION
+        This function checks to see if the current user who executes the script is a member of the Protected Users group.
+        It returns true or false, depending on the result. 
+    
+        .PARAMETER User
+        The username (SamAccountName) that will be checked for membership in the Protected Users group.
+
+        .EXAMPLE
+        This example will check if JaneDoe is a member of the Protected Users group.
+        
+            Test-IsMemberOfProtectedUsers -User JaneDoe
+
+        .EXAMPLE
+        This example will check if the current user is a member of the Protected Users group.
+        
+            Test-IsMemberOfProtectedUsers
+    
+        .INPUTS
+        String: SamAccountName
+    
+        .OUTPUTS
+        Boolean
+
+        .NOTES
+        This can have implications for anything that relies on NTLM authentication.
+        Keep in mind the effects of using run-as with a different user than what you are currently logged in as.
+
+    #>
+    
+        [CmdletBinding()]
+        param (
+            [Parameter(
+                ValueFromPipeline = $false
+            )]
+            [string]$User
+        )
+    
+        Import-Module ActiveDirectory
+    
+        # If a user is specified, check and remove any "DomainName\" prefix, leaving only the SamAccountName
+        if ($User) {
+            # Remove the domain name from the username string if it was included
+            if ($User -like "*\*") {
+                $UserName = ( $User.Split('\') )[-1]
+            }
+            else {
+                $UserName = $User
+            }
+        }
+        # Use the currently logged in user if none is specified
+        else {
+            $CurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+            $UserName = ($CurrentUser.Split('\')[-1])
+        }
+
+        # Get the SID of the Protected Users group to ensure compatibility with any locale's language.
+        $DomainSID = (Get-ADDomain).DomainSID.Value
+        $ProtectedUsersSID = "$DomainSID-525"
+    
+        # Get members of the Protected Users group for the current domain.
+        $ProtectedUsers = Get-ADGroupMember -Identity $ProtectedUsersSID -Recursive |
+            Select-Object -Unique -ExpandProperty SamAccountName
+    
+        # Check if the current user is in the 'Protected Users' group
+        if ($ProtectedUsers -contains $UserName) {
+            $true
+        } else {
+            $false
+        }
+    }
