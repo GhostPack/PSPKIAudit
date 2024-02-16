@@ -1,4 +1,4 @@
-$Version = "0.3.6"
+$Version = "0.3.8"
 
 # regex of low-privileged principal names used for testing vulnerable enrollment/access control
 #   Everyone                S-1-1-0
