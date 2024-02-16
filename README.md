@@ -542,6 +542,9 @@ Go to "Security" and remove the vulnerable access control entry.
 
 **NOTE:** this particular check in PSPKIAudit only checks if NTLM is present for any published enrollment endpoints. *It does NOT check if Extended Protection for Authentication is present for these NTLM-enabled endoints, so false positives may occur!*
 
+> [!IMPORTANT]  
+> NTLM authentication is disabled for accounts in the Protected Users group. This check may fail if running PSPKIAudit while logged in as a Protected User.
+
 ### Details <!-- omit in toc -->
 
 AD CS supports several HTTP-based enrollment methods via additional AD CS server roles that administrators can install. These HTTP-based certificate enrollment interfaces are all vulnerable NTLM relay attacks.
